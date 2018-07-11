@@ -1,0 +1,259 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    background-color: #313131;
+    font-family: "Avenir Next";
+    /* display: grid;
+    grid-template-areas:
+    "a b c";*/
+    overflow-x: hidden;
+    transition: all .5s;
+    bottom: 10vh;
+
+}
+
+/*.periode1 {
+grid-area: a;
+background-color: aqua;
+}
+
+.periode2 {
+grid-area: b;
+}
+
+.periode3 {
+grid-area: c;
+}*/
+
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#content {
+    width: 500vw;
+    height: auto;
+    transition: margin-left .3s;
+}
+
+#intro {
+    margin: 8vw;
+    margin-left: 10vw;
+
+}
+
+.initial {
+    margin-left: -100vw;
+    font-weight: bold;
+    color: #FFF185;
+    float: left;
+}
+
+#introHead {
+    font-size: 9vw;
+}
+
+.introSub {
+    font-size: 2vw;
+    text-decoration: none;
+    color: #FFF185;
+    letter-spacing: 0.1em;
+    width: 42vw;
+    margin-top: 5vh;
+    margin-left: 22vw;
+}
+
+#initialScroll {
+    margin-top: 5vh;
+}
+
+.initial ul #meta,
+.initial ul #visu {
+    float: left;
+    position: inline;
+}
+
+.line1 {
+    margin-left: 22vw;
+    height: 1vh;    
+    background-color: #EF6262;
+
+    -webkit-animation-name: line1; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 5s; /* Safari 4.0 - 8.0 */
+    animation-name: line1;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes line1 {
+    0%, 70% {
+        width: 0;
+    } 
+    100% {
+        width: 17.2vw;
+    }
+}
+
+#animeta {
+    -webkit-animation-name: animeta; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 10s; /* Safari 4.0 - 8.0 */
+    animation-name: animeta;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes animeta {
+    0%, 20% {
+        transform: translateX(80%);
+    } 
+
+    20%, 50% {
+        transform: translateX(80%); 
+    }
+
+    50%, 20% {
+        transform: translateX(80%); 
+    }
+
+    0% {
+        transform: translateX(0%); 
+    }
+}
+
+
+/*.line2 {
+margin-left: 10vw;
+height: 1vh;    
+background-color: #EF6262;
+
+
+-webkit-animation-name: line2; 
+-webkit-animation-duration: 5s; 
+animation-name: line2;
+animation-duration: 5s;
+animation-iteration-count: infinite;
+}
+
+@keyframes line2 {
+0%, 80% {
+width: 0;
+} 
+100% {
+width: 47vw;
+}
+}*/
+
+/* main content */
+
+.periodesHead {
+    font-size: 9vw;
+    font-weight: bold;
+}
+
+.p1, .p2, .p3 {
+    width: 80vw;
+    display: inline;
+    float: left;
+    position: relative;
+}
+
+ul .p1 .header {
+    color: rgba(206, 205, 253, 0.8); 
+}
+
+ul .p1 .header:hover {
+    color: rgba(206, 205, 253, 1); 
+}
+
+ul .p2 .header {
+    color: rgba(164, 253, 184, 0.8); 
+}
+
+ul .p2 .header:hover {
+    color: rgba(164, 253, 184, 1); 
+}
+
+ul .p3 .header {
+    color: rgba(255, 201, 113, 0.8);
+}
+
+ul .p3 .header:hover {
+    color: rgba(255, 201, 113, 1);
+}
+
+.periodesHead .content a {
+    font-size: 20px;
+    white-space: nowrap;
+    opacity: 0.3;
+    target: "_blank";
+}
+
+body[data-period="shift"] {
+    margin-left: 100vw;
+    overflow: hidden;
+}
+
+body[data-period="p1"] #content {
+    margin-left: 0;
+}
+
+body[data-period="p2"] #content {
+    margin-left: -80vw;
+}
+body[data-period="p3"] #content {
+    margin-left: -160vw;
+}
+
+body[data-period="p1"] .p1 .content a {
+    opacity: 1;
+}
+
+body[data-period="p2"] .p2 .content a {
+    opacity: 1;
+}
+
+body[data-period="p3"] .p3 .content a {
+    opacity: 1;
+}
+
+

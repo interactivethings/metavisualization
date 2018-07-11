@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="https://x3dom.org/download/1.7.2/x3dom-full.js"></script>
+        <script src="jquery-3.3.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="metavisualization.css">
+    </head>
+
+    <body data-period="shift">
+        <div id="content">
+
+            <div id="intro">
+
+                <div class="initial">
+                    <div id="introHead">
+                        <ul>
+                            <li id="meta">M</li>
+                            <div class="line2"></div>
+                            <li id="animeta">ETA</li>
+                        </ul>
+
+                        <ul >
+                            <li id="visu">VISUALIZ</li>
+                            <li ></li>
+                        </ul>
+
+                        <ul>
+                            <li>ATION</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="introSub">EXPLORING THE HISTORY OF THE FOOD ASSOCIATION ZURICH WITH A DATA BASE OF 1600 IMAGES.<br>BUT WITHOUT IMAGES.</p>
+
+                    <div id="initialScroll">
+                        <a class="introSub" href="#intialScroll">EXPLORE HERE</a>
+                    </div>
+                    <div class="line1"></div>
+                </div>
+
+
+                <div class="periodesHead">
+                    <ul>
+                        <div class="p1">
+                            <a class="header" href="#p1">1850 - 1950</a>
+                            <div class="content"></div>
+                        </div>
+                        <div class="p2">
+                            <a class="header" href="#p2">1951 - 1970</a>
+                            <div class="content"></div>
+                        </div>
+                        <div class="p3">
+                            <a class="header" href="#p3">1971 - 2000</a>
+                            <div class="content"></div>
+                        </div>
+                    </ul>
+
+
+
+                </div>
+                <div id="nav"></div>
+            </div>
+        </div>
+        <script>
+
+            //setting size of svg
+            var width = 10000;
+            var height = 34000;
+
+
+            //defining the periodes in an array, assigning xPos
+            var periodes = [
+                { parent: ".p1 .content", from: 1850, to: 1950, color: "#CECDFD", xPos: "200" },
+                { parent: ".p2 .content", from: 1950, to: 1970, color: "#A4FDB8", xPos: "1700"},
+                { parent: ".p3 .content", from: 1970, to: 2000, color: "#FFC971", xPos: "3250" }
+            ]
+
+
+            //define what the periode is = result of looking through the file and check with which range it lies. if there is a periode, return it. if not, highlight it in the console and in screen with the given attributes
+            function findPeriodForYear(d) {
+                var periode = periodes.find(function(p) {
+                    return p.from <= d.jahr && p.to > d.jahr
+                })
+
+                if (periode) {
+                    return periode
+                } else {
+                    console.info("No periode for ", d)
+                    return {
+                        from: 0,
+                        to: 0,
+                        color: "#313131",
+                        xPos: "500"
+                    }
+                }
+            }
+
+
+            //loading data set and go through every line. check if there is a column named "Zeit" and create new columns called segments. use this variable to create "jahr". this result is a parsed version of the time info in the file. it parses through splitting the year after the last comma or semicolon.
+            d3.csv("metadatenlvz.csv", function(data) {
+                data.forEach(function(d) {
+                    if (d.Zeit) {
+                        var segments = d.Zeit.split(/[;-]/)
+                        d.jahr = parseInt(segments[segments.length - 1], 10)
+                    }
+                })
+
+
+                for (var i = 0; i < data.length; i++) {
+                    //  console.log(data[i].Zeit);
+                    //console.log(data[i].example);
+                    // return rows;
+                    /*var x = data[i].clusterGroup;
+                    var y = data[i].textpos_mean;
+                    var z = data[i].clusterGroup;*/
+
+                    var d = data[i]
+                    var config = findPeriodForYear(d);
+
+                    d3.select(config.parent)
+                        .append("a")
+                        .style("position", "absolute")
+                        .style("left", "0px")
+                        .style("top", 300 + 26 * i + "px")
+                        .style("color", config.color)
+                        .attr("href", d.Titel)
+                        .attr("font-size", "20")
+                        .attr("font-family", "Avenir Next")
+                        .attr("font-weight", "bold")
+                        .text(d.Titel);
+                }
+
+                return;
+
+                // create svg and drawing it onto body DOM
+                var svg = d3.select("body")
+                .append("div")
+                .style("position", "relative")
+                .style("height", "35000px")
+
+                //group all grasped elements into var g and assign "data" to it
+                var g = svg.selectAll("div")
+                .data(data)
+                .enter()
+                .append("div");
+
+
+                // draw a circle at the position of data set for x and y
+                g.append("a")
+                    .style("position", "absolute")
+
+                    .style("left", function(d, i) {
+                    return findPeriodForYear(d).xPos + "px"
+                })
+
+                    .style("top", function(d, i) {
+                    return 10 + 20 * i + "px";
+                })
+
+                    .style("color", function(d, i){
+                    return findPeriodForYear(d).color
+                })
+                    .attr("href", function(d) {
+                    return d.Titel
+                })
+                    .attr("font-size", "14")
+                    .attr("font-family", "Avenir Next")
+                    .attr("font-weight", "bold")
+                    .text(function(d) {
+                    return d.Titel;
+                })
+            });
+
+        </script>
+        <script>
+            $(document).ready(function() {
+                $("#initialScroll").click(function() {
+                    $("body").attr("data-period", "p1")
+                });
+
+                $(".p1").click(function() {
+                    $("body").attr("data-period", "p1")
+                });
+                $(".p2").click(function() {
+                    $("body").attr("data-period", "p2")
+                });
+                $(".p3").click(function() {
+                    $("body").attr("data-period", "p3")
+                });
+            });
+
+        </script>
+
+
+    </body>
+</html>
